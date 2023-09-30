@@ -45,11 +45,11 @@ public class Partida {
   }
 
   /**
-   * Metodo que crea el directorio donde se guardaran las imagenes de los cartones
+   * Metodo que prepara el directorio donde se van a guardar los cartones
    *
    * @param pDireccion Direccion del directorio
    */
-  public void prepararDirectorio(String pDireccion) {
+  public void prepararDirectorio(String pDireccion) throws RuntimeException {
     java.io.File directorio = new java.io.File(pDireccion);
     if (!directorio.exists()) {
       boolean seCreo = directorio.mkdir();
@@ -57,7 +57,6 @@ public class Partida {
         throw new RuntimeException("No se pudo crear el directorio");
       }
     } else {
-      // Vaciar el directorio
       java.io.File[] archivos = directorio.listFiles();
       assert archivos != null;
       for (java.io.File archivo : archivos) {
@@ -80,7 +79,7 @@ public class Partida {
     for (int i = 0; i < pCantidad; i++) {
       Carton carton = new Carton();
       cartones.add(carton);
-      ImagenCarton imagenCarton = new ImagenCarton(carton.getCasillas());
+      ImagenCarton imagenCarton = new ImagenCarton(carton.getCasillas(), carton.getId());
       imagenCarton.guardarImagen("cartones\\", carton.getId());
     }
   }
