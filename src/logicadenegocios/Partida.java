@@ -6,7 +6,7 @@ public class Partida {
 
   private final Configuracion configuracion;
   private final ArrayList<Jugador> jugadores;
-  private final double montoPremio;
+  private final String premio;
   private final ArrayList<Carton> cartonesGanadores;
   private ArrayList<Carton> cartones;
 
@@ -15,14 +15,14 @@ public class Partida {
    *
    * @param pConfiguracion    Configuracion de la partida
    * @param pJugadores        Jugadores que participan en la partida
-   * @param pMontoPremio      Monto del premio
+   * @param pPremio      Monto del premio
    * @param pCantidadCartones Cantidad de cartones que se van a generar
    */
-  public Partida(Configuracion pConfiguracion, ArrayList<Jugador> pJugadores, double pMontoPremio,
+  public Partida(Configuracion pConfiguracion, ArrayList<Jugador> pJugadores, String pPremio,
       int pCantidadCartones) {
     configuracion = pConfiguracion;
     jugadores = pJugadores;
-    montoPremio = pMontoPremio;
+    premio = pPremio;
     generarCartones(pCantidadCartones);
     cartonesGanadores = new ArrayList<>();
   }
@@ -37,7 +37,7 @@ public class Partida {
     str += "Partida: {\n";
     str += "  configuracion: " + configuracion + ",\n";
     str += "  jugadores: " + jugadores + ",\n";
-    str += "  montoPremio: " + montoPremio + ",\n";
+    str += "  premio: " + premio + ",\n";
     str += "  cartones: " + cartones + ",\n";
     str += "  cartonesGanadores: " + cartonesGanadores + "\n";
     str += "}";
@@ -67,6 +67,7 @@ public class Partida {
     Carton cartonEncontrado = buscarCartonPorId(pIdCarton);
 
     if (jugadorEncontrado != null && cartonEncontrado != null) {
+      // TODO: Enviar correo al jugador con la imagen del carton
       cartonEncontrado.setJugador(jugadorEncontrado);
     }
   }
@@ -124,7 +125,7 @@ public class Partida {
    */
   private void annadirCartonGanador(Carton pCarton) {
     cartonesGanadores.add(pCarton);
-    // TODO: Enviar correo al jugador ganador
+    // TODO: Enviar correo al jugador ganador con la informacion del premio
 
   }
 

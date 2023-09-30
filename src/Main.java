@@ -16,7 +16,7 @@ public class Main {
     jugadores.add(new Jugador("Maria", "123456788", "@gmail.com"));
 
     Configuracion configuracion = Configuracion.JUGAR_EN_Z;
-    Partida partida = new Partida(configuracion, jugadores, 1000, 10);
+    Partida partida = new Partida(configuracion, jugadores, "1000 colones", 10);
     System.out.println(partida);
 
     while (!partida.comprobarCartonesGanadores()) {
