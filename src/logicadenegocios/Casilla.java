@@ -17,7 +17,7 @@ public class Casilla {
 
   public String toString() {
     String str = "";
-    str += "Casilla: {\n";
+    str += "{\n";
     str += "  numero: " + numero + ",\n";
     str += "  estaMarcada: " + estaMarcada + "\n";
     str += "}";

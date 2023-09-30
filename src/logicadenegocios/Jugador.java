@@ -33,7 +33,7 @@ public class Jugador {
    */
   public String toString() {
     String str = "";
-    str += "Jugador: {\n";
+    str += "{\n";
     str += "  nombre: " + nombre + ",\n";
     str += "  cedula: " + cedula + ",\n";
     str += "  email: " + email + "\n";

@@ -142,7 +142,7 @@ public class Carton {
    */
   public String toString() {
     StringBuilder str = new StringBuilder();
-    str.append("Carton: {\n");
+    str.append("{\n");
     str.append("  id: ").append(id).append(",\n");
     str.append("  casillas: [" + "\n");
     for (int fila = 0; fila < 5; fila++) {

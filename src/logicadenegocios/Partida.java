@@ -15,7 +15,7 @@ public class Partida {
    *
    * @param pConfiguracion    Configuracion de la partida
    * @param pJugadores        Jugadores que participan en la partida
-   * @param pPremio      Monto del premio
+   * @param pPremio           Monto del premio
    * @param pCantidadCartones Cantidad de cartones que se van a generar
    */
   public Partida(Configuracion pConfiguracion, ArrayList<Jugador> pJugadores, String pPremio,
@@ -34,7 +34,7 @@ public class Partida {
    */
   public String toString() {
     String str = "";
-    str += "Partida: {\n";
+    str += "{\n";
     str += "  configuracion: " + configuracion + ",\n";
     str += "  jugadores: " + jugadores + ",\n";
     str += "  premio: " + premio + ",\n";
@@ -62,11 +62,12 @@ public class Partida {
    * @param pCedula   Cedula del jugador
    * @param pIdCarton Id del carton
    */
-  void asignarJugadorACarton(String pCedula, String pIdCarton) {
+  public void asignarJugadorACarton(String pCedula, String pIdCarton) {
     Jugador jugadorEncontrado = buscarJugadorPorCedula(pCedula);
     Carton cartonEncontrado = buscarCartonPorId(pIdCarton);
 
-    if (jugadorEncontrado != null && cartonEncontrado != null) {
+    if (jugadorEncontrado != null && cartonEncontrado != null
+        && cartonEncontrado.getJugador() == null) {
       // TODO: Enviar correo al jugador con la imagen del carton
       cartonEncontrado.setJugador(jugadorEncontrado);
     }
@@ -79,7 +80,7 @@ public class Partida {
    * @param pCedula Cedula del jugador
    * @return Jugador encontrado
    */
-  Jugador buscarJugadorPorCedula(String pCedula) {
+  private Jugador buscarJugadorPorCedula(String pCedula) {
     for (Jugador jugador : jugadores) {
       if (jugador.getCedula().equals(pCedula)) {
         return jugador;
@@ -95,7 +96,7 @@ public class Partida {
    * @param pIdCarton Id del carton
    * @return Carton encontrado
    */
-  Carton buscarCartonPorId(String pIdCarton) {
+  private Carton buscarCartonPorId(String pIdCarton) {
     for (Carton carton : cartones) {
       if (carton.getId().equals(pIdCarton)) {
         return carton;
@@ -125,7 +126,7 @@ public class Partida {
    */
   private void annadirCartonGanador(Carton pCarton) {
     cartonesGanadores.add(pCarton);
-    // TODO: Enviar correo al jugador ganador con la informacion del premio
+    // TODO: Enviar correo al jugador ganador con la informacion del premio, si el carton tiene jugador
 
   }
 
@@ -159,5 +160,9 @@ public class Partida {
       case CARTON_LLENO -> pCarton.tieneCartonLleno();
       case JUGAR_EN_Z -> pCarton.tienePatronEnZ();
     };
+  }
+
+  public ArrayList<Carton> getCartonesGanadores() {
+    return cartonesGanadores;
   }
 }
