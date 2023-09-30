@@ -1,15 +1,16 @@
 package logicadenegocios;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.image.BufferedImage;
-import javax.swing.JPanel;
 
 /**
  * Clase que se encarga de generar la imagen del carton
  */
-public class ImagenCarton extends JPanel {
+public class ImagenCarton {
 
   private final Graphics2D g2d;
   int width;
@@ -28,15 +29,44 @@ public class ImagenCarton extends JPanel {
 
 
   private void dibujar(Casilla[][] pCasillas) {
-    g2d.setColor(Color.LIGHT_GRAY);
+    g2d.setColor(Color.BLUE);
     g2d.fillRect(0, 0, width, height);
 
-    g2d.setColor(Color.BLACK);
-    g2d.setFont(new Font("Arial", Font.BOLD, 24));
-    g2d.drawString("BINGO", width / 2 - 30, 30);
+    g2d.setColor(Color.WHITE);
+    g2d.setFont(new Font("Arial", Font.BOLD, 45));
+    String str = "BINGO";
+    int strPosX = (width / 2) - (g2d.getFontMetrics().stringWidth(str) / 2);
+    int strPosY = 55;
+    g2d.drawString(str, strPosX, strPosY);
+    g2d.setFont(new Font("Arial", Font.BOLD, 30));
 
     dibujarCasillas(pCasillas);
   }
+
+  /**
+   * Metodo que dibuja una casilla
+   *
+   * @param pCasilla Casilla que se va a dibujar
+   * @param pPosX    Posicion en X de la casilla
+   * @param pPosY    Posicion en Y de la casilla
+   */
+  private void dibujarCasilla(Casilla pCasilla, int pPosX, int pPosY, int pAncho, int pAlto) {
+    g2d.setColor(Color.YELLOW);
+    Stroke oldStroke = g2d.getStroke(); // Store the current stroke
+    Stroke newStroke = new BasicStroke(4);
+    g2d.setStroke(newStroke);
+    g2d.drawRect(pPosX, pPosY, pAncho, pAlto);
+    g2d.setStroke(oldStroke);
+    g2d.setColor(Color.WHITE);
+    g2d.fillRect(pPosX + 1, pPosY + 1, pAncho - 1, pAlto - 1);
+    g2d.setColor(Color.BLACK);
+    int strPosX = (pAncho / 2) - (g2d.getFontMetrics().stringWidth(String.valueOf(pCasilla.getNumero())) / 2);
+    int strPosY = (pAlto / 2) + (g2d.getFontMetrics().getHeight() / 2);
+    g2d.drawString(String.valueOf(pCasilla.getNumero()), pPosX + strPosX, pPosY + strPosY);
+    g2d.setColor(Color.BLACK);
+    g2d.drawRect(pPosX, pPosY, pAncho, pAlto);
+  }
+
 
   /**
    * Metodo que dibuja las casillas del carton
@@ -44,19 +74,14 @@ public class ImagenCarton extends JPanel {
    * @param pCasillas Casillas del carton
    */
   private void dibujarCasillas(Casilla[][] pCasillas) {
-    int x = 10;
-    int y = 50;
-    int width = 95;
-    int height = 100;
-    g2d.setColor(Color.BLACK);
-    for (int fila = 0; fila < 5; fila++) {
-      for (int columna = 0; columna < 5; columna++) {
-        g2d.drawRect(x, y, width, height);
-        g2d.drawString(String.valueOf(pCasillas[fila][columna].getNumero()), x + 35, y + 60);
-        x += width;
+    int anchoCasilla = 90;
+    int altoCasilla = 100;
+    int xInicial = ((width / 2) - (450 / 2)); // 450 = 90 * 5
+    int yInicial = 75;
+    for (int fila = 0, yPos = yInicial; fila < 5; fila++, yPos += altoCasilla) {
+      for (int columna = 0, xPos = xInicial; columna < 5; columna++, xPos += anchoCasilla) {
+        dibujarCasilla(pCasillas[fila][columna], xPos, yPos, anchoCasilla, altoCasilla);
       }
-      x = 10;
-      y += height;
     }
   }
 
