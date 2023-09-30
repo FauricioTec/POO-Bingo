@@ -39,6 +39,7 @@ public class Partida {
     str += "  jugadores: " + jugadores + ",\n";
     str += "  montoPremio: " + montoPremio + ",\n";
     str += "  cartones: " + cartones + ",\n";
+    str += "  cartonesGanadores: " + cartonesGanadores + "\n";
     str += "}";
     return str;
   }
@@ -64,7 +65,7 @@ public class Partida {
    */
   int generarNumeroRandomConRango(int pMin, int pMax) {
     int range = (pMax - pMin) + 1;
-    return (int) (Math.random() * range) + pMax;
+    return (int) (Math.random() * range) + pMin;
   }
 
   /**
@@ -92,21 +93,25 @@ public class Partida {
       switch (configuracion) {
         case JUGAR_EN_X -> {
           if (carton.tienePatronEnX()) {
+            cartonesGanadores.add(carton);
             huboGanador = true;
           }
         }
         case CUATRO_ESQUINAS -> {
           if (carton.tienePatronCuatroEsquinas()) {
+            cartonesGanadores.add(carton);
             huboGanador = true;
           }
         }
         case CARTON_LLENO -> {
           if (carton.tieneCartonLleno()) {
+            cartonesGanadores.add(carton);
             huboGanador = true;
           }
         }
         case JUGAR_EN_Z -> {
           if (carton.tienePatronEnZ()) {
+            cartonesGanadores.add(carton);
             huboGanador = true;
           }
         }

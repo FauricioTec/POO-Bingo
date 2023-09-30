@@ -1,6 +1,5 @@
 package logicadenegocios;
 
-import java.util.ArrayList;
 import java.util.TreeSet;
 
 public class Jugador {
@@ -9,7 +8,6 @@ public class Jugador {
   private String nombre;
   private String cedula;
   private String email;
-
 
   public Jugador(String pNombre, String pCedula, String pEmail) {
     if (cedulas.contains(pCedula)) {
@@ -20,16 +18,17 @@ public class Jugador {
     email = pEmail;
   }
 
-  public String toString() {
-    return "Jugador: {\n  nombre: " + nombre + "\n  cedula: " + cedula + "\n  email: " + email + "\n}";
-  }
-
   public static TreeSet<String> getCedulas() {
     return cedulas;
   }
 
   public static void setCedulas(TreeSet<String> cedulas) {
     Jugador.cedulas = cedulas;
+  }
+
+  public String toString() {
+    return "Jugador: {\n  nombre: " + nombre + "\n  cedula: " + cedula + "\n  email: " + email
+        + "\n}";
   }
 
   public String getNombre() {

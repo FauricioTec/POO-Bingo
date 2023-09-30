@@ -120,7 +120,7 @@ public class Carton {
    */
   int generarNumeroRandomConRango(int pMin, int pMax) {
     int range = (pMax - pMin) + 1;
-    return (int) (Math.random() * range) + pMax;
+    return (int) (Math.random() * range) + pMin;
   }
 
   /**
