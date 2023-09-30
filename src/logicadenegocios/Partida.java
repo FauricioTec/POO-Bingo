@@ -57,6 +57,25 @@ public class Partida {
   }
 
   /**
+   * Metodo que asigna un jugador a un carton
+   *
+   * @param pCedula   Cedula del jugador
+   * @param pIdCarton Id del carton
+   */
+  void asignarJugadorACarton(String pCedula, String pIdCarton) {
+    for (Jugador jugador : jugadores) {
+      if (jugador.getCedula().equals(pCedula)) {
+        for (Carton carton : cartones) {
+          if (carton.getId().equals(pIdCarton)) {
+            carton.setJugador(jugador);
+            return;
+          }
+        }
+      }
+    }
+  }
+
+  /**
    * Metodo que genera un numero random con un rango
    *
    * @param pMin Minimo del rango
@@ -83,40 +102,47 @@ public class Partida {
   }
 
   /**
-   * Metodo que comprueba si hay ganadores en la partida, y los agrega a la lista de ganadores
+   * Metodo que agrega un carton ganador a la lista de cartones ganadores
+   *
+   * @param pCarton Carton ganador
+   */
+  private void annadirCartonGanador(Carton pCarton) {
+    cartonesGanadores.add(pCarton);
+    if (pCarton.getJugador() != null) {
+      // TODO: Enviar correo al jugador
+      return;
+    }
+  }
+
+  /**
+   * Metodo que comprueba si hay cartones ganadores en la partida, y los agrega a la lista de
+   * cartones ganadores
    *
    * @return Booleano que indica si hubo ganadores
    */
   public boolean comprobarCartonesGanadores() {
     boolean huboGanador = false;
     for (Carton carton : cartones) {
-      switch (configuracion) {
-        case JUGAR_EN_X -> {
-          if (carton.tienePatronEnX()) {
-            cartonesGanadores.add(carton);
-            huboGanador = true;
-          }
-        }
-        case CUATRO_ESQUINAS -> {
-          if (carton.tienePatronCuatroEsquinas()) {
-            cartonesGanadores.add(carton);
-            huboGanador = true;
-          }
-        }
-        case CARTON_LLENO -> {
-          if (carton.tieneCartonLleno()) {
-            cartonesGanadores.add(carton);
-            huboGanador = true;
-          }
-        }
-        case JUGAR_EN_Z -> {
-          if (carton.tienePatronEnZ()) {
-            cartonesGanadores.add(carton);
-            huboGanador = true;
-          }
-        }
+      if (comprobarPatron(carton)) {
+        annadirCartonGanador(carton);
+        huboGanador = true;
       }
     }
     return huboGanador;
+  }
+
+  /**
+   * Metodo que comprueba si un carton tiene el patron de la partida
+   *
+   * @param carton Carton a comprobar
+   * @return Booleano que indica si el carton tiene el patron
+   */
+  private boolean comprobarPatron(Carton carton) {
+    return switch (configuracion) {
+      case JUGAR_EN_X -> carton.tienePatronEnX();
+      case CUATRO_ESQUINAS -> carton.tienePatronCuatroEsquinas();
+      case CARTON_LLENO -> carton.tieneCartonLleno();
+      case JUGAR_EN_Z -> carton.tienePatronEnZ();
+    };
   }
 }

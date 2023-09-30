@@ -6,6 +6,8 @@ public class Carton {
 
   private static int cantidadCartones = 0;
   private String id;
+
+  private Jugador jugador;
   private Casilla[][] casillas;
 
   /**
@@ -172,6 +174,14 @@ public class Carton {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public Jugador getJugador() {
+    return jugador;
+  }
+
+  public void setJugador(Jugador jugador) {
+    this.jugador = jugador;
   }
 
   public Casilla[][] getCasillas() {

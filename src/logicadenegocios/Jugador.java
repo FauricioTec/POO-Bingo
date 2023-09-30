@@ -15,6 +15,7 @@ public class Jugador {
     }
     nombre = pNombre;
     cedula = pCedula;
+    cedulas.add(pCedula);
     email = pEmail;
   }
 
