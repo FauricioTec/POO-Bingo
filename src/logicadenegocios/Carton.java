@@ -120,7 +120,7 @@ public class Carton {
    * @param pMax Maximo del rango
    * @return Numero generado
    */
-  int generarNumeroRandomConRango(int pMin, int pMax) {
+  private int generarNumeroRandomConRango(int pMin, int pMax) {
     int range = (pMax - pMin) + 1;
     return (int) (Math.random() * range) + pMin;
   }
@@ -180,4 +180,7 @@ public class Carton {
     this.jugador = jugador;
   }
 
+  public Casilla[][] getCasillas() {
+    return casillas;
+  }
 }

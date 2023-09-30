@@ -45,14 +45,43 @@ public class Partida {
   }
 
   /**
+   * Metodo que crea el directorio donde se guardaran las imagenes de los cartones
+   *
+   * @param pDireccion Direccion del directorio
+   */
+  public void prepararDirectorio(String pDireccion) {
+    java.io.File directorio = new java.io.File(pDireccion);
+    if (!directorio.exists()) {
+      boolean seCreo = directorio.mkdir();
+      if (!seCreo) {
+        throw new RuntimeException("No se pudo crear el directorio");
+      }
+    } else {
+      // Vaciar el directorio
+      java.io.File[] archivos = directorio.listFiles();
+      assert archivos != null;
+      for (java.io.File archivo : archivos) {
+        boolean seElimino = archivo.delete();
+        if (!seElimino) {
+          throw new RuntimeException("No se pudo vaciar el directorio");
+        }
+      }
+    }
+  }
+
+  /**
    * Metodo que genera los cartones de la partida
    *
    * @param pCantidad Cantidad de cartones que se van a generar
    */
   private void generarCartones(int pCantidad) {
     cartones = new ArrayList<>();
+    prepararDirectorio("cartones");
     for (int i = 0; i < pCantidad; i++) {
-      cartones.add(new Carton());
+      Carton carton = new Carton();
+      cartones.add(carton);
+      ImagenCarton imagenCarton = new ImagenCarton(carton.getCasillas());
+      imagenCarton.guardarImagen("cartones\\", carton.getId());
     }
   }
 
