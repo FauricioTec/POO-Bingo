@@ -79,7 +79,7 @@ public class Partida {
     for (int i = 0; i < pCantidad; i++) {
       Carton carton = new Carton();
       cartones.add(carton);
-      ImagenCarton imagenCarton = new ImagenCarton(carton.getCasillas(), carton.getId());
+      ImagenCarton imagenCarton = new ImagenCarton(carton);
       imagenCarton.guardarImagen("cartones\\", carton.getId());
     }
   }

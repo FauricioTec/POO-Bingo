@@ -17,18 +17,18 @@ public class ImagenCarton {
   int height;
   BufferedImage imagen;
 
-  public ImagenCarton(Casilla[][] pCasillas, String pIdCarton) {
+  public ImagenCarton(Carton pCarton) {
     width = 500;
     height = 600;
     imagen = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
     g2d = imagen.createGraphics();
 
-    dibujar(pCasillas, pIdCarton);
+    dibujar(pCarton.getCasillas(), pCarton.getId());
   }
 
 
-  private void dibujar(Casilla[][] pCasillas, String pIdCarton) {
+  private void dibujar(Casilla[][] pCasillas, String pId) {
     g2d.setColor(Color.BLUE);
     g2d.fillRect(0, 0, width, height);
 
@@ -45,7 +45,7 @@ public class ImagenCarton {
     // añadir el id a la parte inferior derecha
     g2d.setColor(Color.WHITE);
     g2d.setFont(new Font("Arial", Font.BOLD, 15));
-    str = pIdCarton;
+    str = pId;
     strPosX = width - g2d.getFontMetrics().stringWidth(str) - 20;
     strPosY = height - 7;
     g2d.drawString(str, strPosX, strPosY);
@@ -65,7 +65,11 @@ public class ImagenCarton {
     g2d.setStroke(newStroke);
     g2d.drawRect(pPosX, pPosY, pAncho, pAlto);
     g2d.setStroke(oldStroke);
-    g2d.setColor(Color.WHITE);
+    if (pCasilla.getEstaMarcada()) {
+      g2d.setColor(Color.GREEN);
+    } else {
+      g2d.setColor(Color.WHITE);
+    }
     g2d.fillRect(pPosX + 1, pPosY + 1, pAncho - 1, pAlto - 1);
     g2d.setColor(Color.BLACK);
     int strPosX = (pAncho / 2) - (g2d.getFontMetrics().stringWidth(String.valueOf(pCasilla.getNumero())) / 2);
