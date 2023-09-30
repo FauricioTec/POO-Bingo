@@ -9,6 +9,13 @@ public class Jugador {
   private final String cedula;
   private final String email;
 
+  /**
+   * Constructor de la clase Jugador
+   *
+   * @param pNombre Nombre del jugador
+   * @param pCedula Cedula del jugador
+   * @param pEmail  Email del jugador
+   */
   public Jugador(String pNombre, String pCedula, String pEmail) {
     if (cedulas.contains(pCedula)) {
       throw new RuntimeException("Ya existe un jugador con esa cedula");
@@ -19,9 +26,19 @@ public class Jugador {
     email = pEmail;
   }
 
+  /**
+   * Metodo que retorna un String con el jugador
+   *
+   * @return String con la informacion del jugador
+   */
   public String toString() {
-    return "Jugador: {\n  nombre: " + nombre + "\n  cedula: " + cedula + "\n  email: " + email
-        + "\n}";
+    String str = "";
+    str += "Jugador: {\n";
+    str += "  nombre: " + nombre + ",\n";
+    str += "  cedula: " + cedula + ",\n";
+    str += "  email: " + email + "\n";
+    str += "}";
+    return str;
   }
 
   public String getCedula() {

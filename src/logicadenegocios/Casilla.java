@@ -16,7 +16,12 @@ public class Casilla {
   }
 
   public String toString() {
-    return "Casilla: " + numero + " " + estaMarcada;
+    String str = "";
+    str += "Casilla: {\n";
+    str += "  numero: " + numero + ",\n";
+    str += "  estaMarcada: " + estaMarcada + "\n";
+    str += "}";
+    return str;
   }
 
   public int getNumero() {
