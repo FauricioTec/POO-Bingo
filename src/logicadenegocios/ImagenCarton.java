@@ -24,11 +24,11 @@ public class ImagenCarton {
 
     g2d = imagen.createGraphics();
 
-    dibujar(pCasillas);
+    dibujar(pCasillas, pIdCarton);
   }
 
 
-  private void dibujar(Casilla[][] pCasillas) {
+  private void dibujar(Casilla[][] pCasillas, String pIdCarton) {
     g2d.setColor(Color.BLUE);
     g2d.fillRect(0, 0, width, height);
 
@@ -41,6 +41,14 @@ public class ImagenCarton {
     g2d.setFont(new Font("Arial", Font.BOLD, 30));
 
     dibujarCasillas(pCasillas);
+
+    // añadir el id a la parte inferior derecha
+    g2d.setColor(Color.WHITE);
+    g2d.setFont(new Font("Arial", Font.BOLD, 15));
+    str = pIdCarton;
+    strPosX = width - g2d.getFontMetrics().stringWidth(str) - 20;
+    strPosY = height - 7;
+    g2d.drawString(str, strPosX, strPosY);
   }
 
   /**
