@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import javax.xml.stream.FactoryConfigurationError;
-import logicadenegocios.Carton;
 import logicadenegocios.Configuracion;
 import logicadenegocios.Jugador;
 import logicadenegocios.Partida;
@@ -21,7 +19,7 @@ public class Main {
     Partida partida = new Partida(configuracion, jugadores, 1000, 10);
     System.out.println(partida);
 
-    while(!partida.comprobarCartonesGanadores()) {
+    while (!partida.comprobarCartonesGanadores()) {
       partida.girarTombola();
     }
 

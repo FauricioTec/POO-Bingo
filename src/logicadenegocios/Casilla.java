@@ -23,10 +23,6 @@ public class Casilla {
     return numero;
   }
 
-  public void setNumero(int pNumero) {
-    numero = pNumero;
-  }
-
   public boolean getEstaMarcada() {
     return estaMarcada;
   }

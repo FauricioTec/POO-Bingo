@@ -63,28 +63,44 @@ public class Partida {
    * @param pIdCarton Id del carton
    */
   void asignarJugadorACarton(String pCedula, String pIdCarton) {
-    for (Jugador jugador : jugadores) {
-      if (jugador.getCedula().equals(pCedula)) {
-        for (Carton carton : cartones) {
-          if (carton.getId().equals(pIdCarton)) {
-            carton.setJugador(jugador);
-            return;
-          }
-        }
-      }
+    Jugador jugadorEncontrado = buscarJugadorPorCedula(pCedula);
+    Carton cartonEncontrado = buscarCartonPorId(pIdCarton);
+
+    if (jugadorEncontrado != null && cartonEncontrado != null) {
+      cartonEncontrado.setJugador(jugadorEncontrado);
     }
   }
 
+
   /**
-   * Metodo que genera un numero random con un rango
+   * Metodo que busca un jugador por su cedula
    *
-   * @param pMin Minimo del rango
-   * @param pMax Maximo del rango
-   * @return Numero generado
+   * @param pCedula Cedula del jugador
+   * @return Jugador encontrado
    */
-  int generarNumeroRandomConRango(int pMin, int pMax) {
-    int range = (pMax - pMin) + 1;
-    return (int) (Math.random() * range) + pMin;
+  Jugador buscarJugadorPorCedula(String pCedula) {
+    for (Jugador jugador : jugadores) {
+      if (jugador.getCedula().equals(pCedula)) {
+        return jugador;
+      }
+    }
+    return null;
+  }
+
+
+  /**
+   * Metodo que busca un carton por su id
+   *
+   * @param pIdCarton Id del carton
+   * @return Carton encontrado
+   */
+  Carton buscarCartonPorId(String pIdCarton) {
+    for (Carton carton : cartones) {
+      if (carton.getId().equals(pIdCarton)) {
+        return carton;
+      }
+    }
+    return null;
   }
 
   /**
@@ -94,7 +110,7 @@ public class Partida {
    * @return Numero generado
    */
   public int girarTombola() {
-    int numero = generarNumeroRandomConRango(1, 75);
+    int numero = (int) (Math.random() * 75) + 1;
     for (Carton carton : cartones) {
       carton.marcarNumero(numero);
     }
@@ -108,10 +124,8 @@ public class Partida {
    */
   private void annadirCartonGanador(Carton pCarton) {
     cartonesGanadores.add(pCarton);
-    if (pCarton.getJugador() != null) {
-      // TODO: Enviar correo al jugador
-      return;
-    }
+    // TODO: Enviar correo al jugador ganador
+
   }
 
   /**
@@ -134,15 +148,15 @@ public class Partida {
   /**
    * Metodo que comprueba si un carton tiene el patron de la partida
    *
-   * @param carton Carton a comprobar
+   * @param pCarton Carton a comprobar
    * @return Booleano que indica si el carton tiene el patron
    */
-  private boolean comprobarPatron(Carton carton) {
+  private boolean comprobarPatron(Carton pCarton) {
     return switch (configuracion) {
-      case JUGAR_EN_X -> carton.tienePatronEnX();
-      case CUATRO_ESQUINAS -> carton.tienePatronCuatroEsquinas();
-      case CARTON_LLENO -> carton.tieneCartonLleno();
-      case JUGAR_EN_Z -> carton.tienePatronEnZ();
+      case JUGAR_EN_X -> pCarton.tienePatronEnX();
+      case CUATRO_ESQUINAS -> pCarton.tienePatronCuatroEsquinas();
+      case CARTON_LLENO -> pCarton.tieneCartonLleno();
+      case JUGAR_EN_Z -> pCarton.tienePatronEnZ();
     };
   }
 }

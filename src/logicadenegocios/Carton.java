@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public class Carton {
 
   private static int cantidadCartones = 0;
-  private String id;
+  private final String id;
 
   private Jugador jugador;
-  private Casilla[][] casillas;
+  private final Casilla[][] casillas;
 
   /**
    * Constructor de la clase Carton
@@ -172,10 +172,6 @@ public class Carton {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
   public Jugador getJugador() {
     return jugador;
   }
@@ -184,11 +180,4 @@ public class Carton {
     this.jugador = jugador;
   }
 
-  public Casilla[][] getCasillas() {
-    return casillas;
-  }
-
-  public void setCasillas(Casilla[][] casillas) {
-    this.casillas = casillas;
-  }
 }
