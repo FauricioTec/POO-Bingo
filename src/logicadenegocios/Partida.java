@@ -174,11 +174,9 @@ public class Partida {
       String bodyHtml = "<h1>Carton ganador</h1>"
           + "<p>El carton con id: " + pCarton.getId() + " ha ganado</p>"
           + "<p>El premio es de: " + premio + "</p>"
-          + "<p>El carton es el siguiente:</p>"
-          + "<img src=\"cid:image\">";
+          + "<p>El carton es el siguiente:</p>";
 
-      email.enviarEmailConImagen(destinatarios, "Asignacion de carton",
-          ".\\cartones\\" + pCarton.getId() + ".png", bodyHtml);
+      email.enviarEmail(destinatarios, "Asignacion de carton", bodyHtml);
     }
   }
 
