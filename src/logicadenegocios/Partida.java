@@ -1,5 +1,6 @@
 package logicadenegocios;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Partida {
@@ -90,13 +91,25 @@ public class Partida {
    * @param pCedula   Cedula del jugador
    * @param pIdCarton Id del carton
    */
-  public void asignarJugadorACarton(String pCedula, String pIdCarton) {
+  public void asignarJugadorACarton(String pCedula, String pIdCarton)
+      throws javax.mail.MessagingException, IOException {
     Jugador jugadorEncontrado = buscarJugadorPorCedula(pCedula);
     Carton cartonEncontrado = buscarCartonPorId(pIdCarton);
 
     if (jugadorEncontrado != null && cartonEncontrado != null
         && cartonEncontrado.getJugador() == null) {
-      // TODO: Enviar correo al jugador con la imagen del carton
+      Email email = new Email("correosautomaticos673@gmail.com", "dwhv ixzp lnud ljwl");
+      String[] destinatarios = {jugadorEncontrado.getEmail()};
+
+      String bodyHtml = "<h1>Asignacion de carton</h1>"
+          + "<p>Se le ha asignado el carton con id: " + cartonEncontrado.getId() + "</p>"
+          + "<p>El premio es de: " + premio + "</p>"
+          + "<p>El carton es el siguiente:</p>"
+          + "<img src=\"cid:image\">";
+
+      email.enviarEmailConImagen(destinatarios, "Asignacion de carton",
+          ".\\cartones\\" + cartonEncontrado.getId() + ".png", bodyHtml);
+
       cartonEncontrado.setJugador(jugadorEncontrado);
     }
   }
@@ -152,10 +165,21 @@ public class Partida {
    *
    * @param pCarton Carton ganador
    */
-  private void annadirCartonGanador(Carton pCarton) {
+  private void annadirCartonGanador(Carton pCarton) throws javax.mail.MessagingException, IOException {
     cartonesGanadores.add(pCarton);
-    // TODO: Enviar correo al jugador ganador con la informacion del premio, si el carton tiene jugador
+    if (pCarton.getJugador() != null) {
+      Email email = new Email("correosautomaticos673@gmail.com", "dwhv ixzp lnud ljwl");
+      String[] destinatarios = {pCarton.getJugador().getEmail()};
 
+      String bodyHtml = "<h1>Carton ganador</h1>"
+          + "<p>El carton con id: " + pCarton.getId() + " ha ganado</p>"
+          + "<p>El premio es de: " + premio + "</p>"
+          + "<p>El carton es el siguiente:</p>"
+          + "<img src=\"cid:image\">";
+
+      email.enviarEmailConImagen(destinatarios, "Asignacion de carton",
+          ".\\cartones\\" + pCarton.getId() + ".png", bodyHtml);
+    }
   }
 
   /**
@@ -164,7 +188,7 @@ public class Partida {
    *
    * @return Booleano que indica si hubo ganadores
    */
-  public boolean comprobarCartonesGanadores() {
+  public boolean comprobarCartonesGanadores() throws javax.mail.MessagingException, IOException {
     boolean huboGanador = false;
     for (Carton carton : cartones) {
       if (comprobarPatron(carton)) {

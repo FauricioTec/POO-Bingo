@@ -104,4 +104,13 @@ public class ImagenCarton {
       System.out.println(e.getMessage());
     }
   }
+
+  public static BufferedImage cargarImagen(String pDireccion) {
+    try {
+      return javax.imageio.ImageIO.read(new java.io.File(pDireccion));
+    } catch (java.io.IOException e) {
+      System.out.println(e.getMessage());
+    }
+    return null;
+  }
 }

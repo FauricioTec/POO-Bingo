@@ -41,8 +41,15 @@ public class Jugador {
     return str;
   }
 
+  public String getNombre() {
+    return nombre;
+  }
+
   public String getCedula() {
     return cedula;
   }
 
+  public String getEmail() {
+    return email;
+  }
 }
