@@ -17,6 +17,11 @@ public class ImagenCarton {
   int height;
   BufferedImage imagen;
 
+  /**
+   * Constructor de la clase ImagenCarton
+   *
+   * @param pCarton Carton que se va a dibujar
+   */
   public ImagenCarton(Carton pCarton) {
     width = 500;
     height = 600;
@@ -27,7 +32,27 @@ public class ImagenCarton {
     dibujar(pCarton.getCasillas(), pCarton.getId());
   }
 
+  /**
+   * Metodo que carga una imagen
+   *
+   * @param pDireccion Direccion de la imagen
+   * @return Imagen
+   */
+  public static BufferedImage cargarImagen(String pDireccion) {
+    try {
+      return javax.imageio.ImageIO.read(new java.io.File(pDireccion));
+    } catch (java.io.IOException e) {
+      System.out.println(e.getMessage());
+    }
+    return null;
+  }
 
+  /**
+   * Metodo que dibuja el carton en la imagen
+   *
+   * @param pCasillas Casillas del carton
+   * @param pId       Id del carton
+   */
   private void dibujar(Casilla[][] pCasillas, String pId) {
     g2d.setColor(Color.BLUE);
     g2d.fillRect(0, 0, width, height);
@@ -72,13 +97,13 @@ public class ImagenCarton {
     }
     g2d.fillRect(pPosX + 1, pPosY + 1, pAncho - 1, pAlto - 1);
     g2d.setColor(Color.BLACK);
-    int strPosX = (pAncho / 2) - (g2d.getFontMetrics().stringWidth(String.valueOf(pCasilla.getNumero())) / 2);
+    int strPosX =
+        (pAncho / 2) - (g2d.getFontMetrics().stringWidth(String.valueOf(pCasilla.getNumero())) / 2);
     int strPosY = (pAlto / 2) + (g2d.getFontMetrics().getHeight() / 2);
     g2d.drawString(String.valueOf(pCasilla.getNumero()), pPosX + strPosX, pPosY + strPosY);
     g2d.setColor(Color.BLACK);
     g2d.drawRect(pPosX, pPosY, pAncho, pAlto);
   }
-
 
   /**
    * Metodo que dibuja las casillas del carton
@@ -97,20 +122,17 @@ public class ImagenCarton {
     }
   }
 
+  /**
+   * Metodo que guarda la imagen del carton
+   *
+   * @param pDireccion Direccion donde se va a guardar la imagen
+   * @param pIdCarton  Id del carton
+   */
   public void guardarImagen(String pDireccion, String pIdCarton) {
     try {
       javax.imageio.ImageIO.write(imagen, "png", new java.io.File(pDireccion + pIdCarton + ".png"));
     } catch (java.io.IOException e) {
       System.out.println(e.getMessage());
     }
-  }
-
-  public static BufferedImage cargarImagen(String pDireccion) {
-    try {
-      return javax.imageio.ImageIO.read(new java.io.File(pDireccion));
-    } catch (java.io.IOException e) {
-      System.out.println(e.getMessage());
-    }
-    return null;
   }
 }

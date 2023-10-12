@@ -2,6 +2,9 @@ package logicadenegocios;
 
 import java.util.TreeSet;
 
+/**
+ * Clase que representa un jugador
+ */
 public class Jugador {
 
   private static final TreeSet<String> cedulas = new TreeSet<>();

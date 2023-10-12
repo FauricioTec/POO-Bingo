@@ -2,6 +2,9 @@ package logicadenegocios;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que representa un carton
+ */
 public class Carton {
 
   private static int cantidadCartones = 0;
@@ -174,6 +177,10 @@ public class Carton {
 
   public Jugador getJugador() {
     return jugador;
+  }
+
+  public boolean tieneJugador() {
+    return jugador != null;
   }
 
   public void setJugador(Jugador jugador) {

@@ -21,7 +21,7 @@ public class Main {
     Partida partida = new Partida(configuracion, jugadores, "1000 colones", 10);
     System.out.println(partida);
 
-    partida.asignarJugadorACarton(jugadores.get(0).getCedula(), "CTN1");
+    partida.enviarCartonesAJugador(jugadores.get(0).getCedula(), 5);
 
     while (!partida.comprobarCartonesGanadores()) {
       partida.girarTombola();

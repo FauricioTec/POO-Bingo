@@ -86,34 +86,82 @@ public class Partida {
   }
 
   /**
+   * Metodo que envia un correo con los cartones a un jugador
+   *
+   * @param pCartones Cartones que se van a enviar
+   * @param pEmail    Email del jugador
+   */
+  private void enviarCorreoConCartones(Carton[] pCartones, String pEmail)
+      throws javax.mail.MessagingException, IOException {
+    Email email = new Email("correosautomaticos673@gmail.com", "dwhv ixzp lnud ljwl");
+    String[] direccionImagenes = new String[pCartones.length];
+    StringBuilder bodyHtml = new StringBuilder("<h1>Cartones</h1>"
+        + "<h3>Los cartones son los siguientes:</h3>");
+    int i = 0;
+    for (Carton carton : pCartones) {
+      direccionImagenes[i] = ".\\cartones\\" + carton.getId() + ".png";
+      bodyHtml.append("<img src=\"cid:image").append(i).append("\">");
+      i++;
+    }
+    email.enviarEmailConImagenes(pEmail, "Asignacion de carton", direccionImagenes,
+        bodyHtml.toString());
+  }
+
+
+  /**
+   * Retorna la cantidad de cartones que hay en la partida sin asignar
+   *
+   * @return Cantidad de cartones sin asignar
+   */
+  private int contarCartonesSinAsignar() {
+    int cantidad = 0;
+    for (Carton carton : cartones) {
+      if (carton.getJugador() == null) {
+        cantidad++;
+      }
+    }
+    return cantidad;
+  }
+
+  /**
+   * Metodo que retorna un carton aleatorio de la partida que no tenga jugador
+   *
+   * @return Carton aleatorio
+   */
+  private Carton obtenerCartonSinAsignar() {
+    ArrayList<Carton> cartonesSinAsignar = new ArrayList<>();
+    for (Carton carton : cartones) {
+      if (carton.getJugador() == null) {
+        cartonesSinAsignar.add(carton);
+      }
+    }
+    int indice = (int) (Math.random() * cartonesSinAsignar.size());
+    return cartonesSinAsignar.get(indice);
+  }
+
+  /**
    * Metodo que asigna un jugador a un carton
    *
    * @param pCedula   Cedula del jugador
-   * @param pIdCarton Id del carton
+   * @param pCantidad Cantidad de cartones que se le van a asignar
    */
-  public void asignarJugadorACarton(String pCedula, String pIdCarton)
+  public void enviarCartonesAJugador(String pCedula, int pCantidad)
       throws javax.mail.MessagingException, IOException {
-    Jugador jugadorEncontrado = buscarJugadorPorCedula(pCedula);
-    Carton cartonEncontrado = buscarCartonPorId(pIdCarton);
-
-    if (jugadorEncontrado != null && cartonEncontrado != null
-        && cartonEncontrado.getJugador() == null) {
-      Email email = new Email("correosautomaticos673@gmail.com", "dwhv ixzp lnud ljwl");
-      String[] destinatarios = {jugadorEncontrado.getEmail()};
-
-      String bodyHtml = "<h1>Asignacion de carton</h1>"
-          + "<p>Se le ha asignado el carton con id: " + cartonEncontrado.getId() + "</p>"
-          + "<p>El premio es de: " + premio + "</p>"
-          + "<p>El carton es el siguiente:</p>"
-          + "<img src=\"cid:image\">";
-
-      email.enviarEmailConImagen(destinatarios, "Asignacion de carton",
-          ".\\cartones\\" + cartonEncontrado.getId() + ".png", bodyHtml);
-
-      cartonEncontrado.setJugador(jugadorEncontrado);
+    if (pCantidad > contarCartonesSinAsignar()) {
+      throw new RuntimeException("No hay suficientes cartones sin asignar");
     }
+    Jugador jugador = obtenerJugadorPorCedula(pCedula);
+    if (jugador == null) {
+      throw new RuntimeException("No se encontro el jugador");
+    }
+    ArrayList<Carton> cartonesJugador = new ArrayList<>();
+    for (int i = 0; i < pCantidad; i++) {
+      Carton carton = obtenerCartonSinAsignar();
+      carton.setJugador(jugador);
+      cartonesJugador.add(carton);
+    }
+    enviarCorreoConCartones(cartonesJugador.toArray(new Carton[0]), jugador.getEmail());
   }
-
 
   /**
    * Metodo que busca un jugador por su cedula
@@ -121,7 +169,7 @@ public class Partida {
    * @param pCedula Cedula del jugador
    * @return Jugador encontrado
    */
-  private Jugador buscarJugadorPorCedula(String pCedula) {
+  private Jugador obtenerJugadorPorCedula(String pCedula) {
     for (Jugador jugador : jugadores) {
       if (jugador.getCedula().equals(pCedula)) {
         return jugador;
@@ -129,7 +177,6 @@ public class Partida {
     }
     return null;
   }
-
 
   /**
    * Metodo que busca un carton por su id
@@ -160,23 +207,29 @@ public class Partida {
     return numero;
   }
 
+  private void enviarCorreoGanador(Carton pCartonGanador, String pEmail)
+      throws javax.mail.MessagingException, IOException {
+    Email email = new Email("correosautomaticos673@gmail.com", "dwhv ixzp lnud ljwl");
+    String bodyHtml = "<h1>Carton ganador </h1>"
+        + "<h4>El carton con id: " + pCartonGanador.getId() + " ha ganado</h4>"
+        + "<h4>El premio es de: " + premio + "</h4>"
+        + "<h4>El carton es el siguiente:</h4>"
+        + "<img src=\"cid:image\">";
+    email.enviarEmailConImagen(pEmail, "Asignacion de carton",
+        ".\\cartones\\" + pCartonGanador.getId() + ".png", bodyHtml);
+  }
+
+
   /**
    * Metodo que agrega un carton ganador a la lista de cartones ganadores
    *
    * @param pCarton Carton ganador
    */
-  private void annadirCartonGanador(Carton pCarton) throws javax.mail.MessagingException, IOException {
+  private void annadirCartonGanador(Carton pCarton) throws
+      javax.mail.MessagingException, IOException {
     cartonesGanadores.add(pCarton);
-    if (pCarton.getJugador() != null) {
-      Email email = new Email("correosautomaticos673@gmail.com", "dwhv ixzp lnud ljwl");
-      String[] destinatarios = {pCarton.getJugador().getEmail()};
-
-      String bodyHtml = "<h1>Carton ganador</h1>"
-          + "<p>El carton con id: " + pCarton.getId() + " ha ganado</p>"
-          + "<p>El premio es de: " + premio + "</p>"
-          + "<p>El carton es el siguiente:</p>";
-
-      email.enviarEmail(destinatarios, "Asignacion de carton", bodyHtml);
+    if (pCarton.tieneJugador()) {
+      enviarCorreoGanador(pCarton, pCarton.getJugador().getEmail());
     }
   }
 
@@ -193,6 +246,10 @@ public class Partida {
         annadirCartonGanador(carton);
         huboGanador = true;
       }
+    }
+    if (huboGanador) {
+      prepararDirectorio("cartones");
+      cartones = new ArrayList<>();
     }
     return huboGanador;
   }
