@@ -20,16 +20,17 @@ public class ImagenCarton {
   /**
    * Constructor de la clase ImagenCarton
    *
-   * @param pCarton Carton que se va a dibujar
+   * @param pCasillas Casillas del carton
+   * @param pId       Id del carton
    */
-  public ImagenCarton(Carton pCarton) {
+  public ImagenCarton(Casilla[][] pCasillas, String pId) {
     width = 500;
     height = 600;
     imagen = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
     g2d = imagen.createGraphics();
 
-    dibujar(pCarton.getCasillas(), pCarton.getId());
+    dibujar(pCasillas, pId);
   }
 
   /**

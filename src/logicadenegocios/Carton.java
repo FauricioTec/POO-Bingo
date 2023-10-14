@@ -19,6 +19,16 @@ public class Carton {
   public Carton() {
     id = generarId();
     casillas = new Casilla[5][5];
+    generarCasillas();
+    ImagenCarton imagenCarton = new ImagenCarton(casillas, id);
+    imagenCarton.guardarImagen("cartones\\", id);
+  }
+
+  /**
+   * Metodo que genera las casillas del carton
+   *
+   */
+  public void generarCasillas() {
     for (int columna = 0; columna < 5; columna++) {
       ArrayList<Integer> numerosGenerados = new ArrayList<>();
       int min = 1 + (columna * 15);

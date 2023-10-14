@@ -1,5 +1,7 @@
 package logicadenegocios;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 import javax.activation.FileDataSource;
 import javax.mail.Address;
@@ -50,7 +52,7 @@ public class Email {
    * @param pBody                Cuerpo del email
    */
   public void enviarEmailConImagenes(String pDestinatario, String pAsunto,
-      String[] pDireccionesImagenes,
+      ArrayList<String> pDireccionesImagenes,
       String pBody) throws MessagingException, java.io.IOException {
 
     Message mensaje = iniciarMensaje(pDestinatario, pAsunto);
@@ -160,5 +162,39 @@ public class Email {
     message.setSubject(pAsunto);
 
     return message;
+  }
+
+  /**
+   * Metodo que envia un correo con los cartones a un jugador
+   *
+   * @param pCartones Cartones que se van a enviar
+   * @param pEmail    Email del jugador
+   */
+  public static void enviarCorreoConCartones(ArrayList<Carton> pCartones, String pEmail)
+      throws javax.mail.MessagingException, IOException {
+    Email email = new Email("correosautomaticos673@gmail.com", "dwhv ixzp lnud ljwl");
+    ArrayList<String> direccionImagenes = new ArrayList<>();
+    StringBuilder bodyHtml = new StringBuilder("<h1>Cartones</h1>"
+        + "<h3>Los cartones son los siguientes:</h3>");
+    int i = 0;
+    for (Carton carton : pCartones) {
+      direccionImagenes.add(".\\cartones\\" + carton.getId() + ".png");
+      bodyHtml.append("<img src=\"cid:image").append(i).append("\">");
+      i++;
+    }
+    email.enviarEmailConImagenes(pEmail, "Asignacion de carton", direccionImagenes,
+        bodyHtml.toString());
+  }
+
+  public static void enviarCorreoGanador(String pIdCarton, String pPremio, String pEmail)
+      throws javax.mail.MessagingException, IOException {
+    Email email = new Email("correosautomaticos673@gmail.com", "dwhv ixzp lnud ljwl");
+    String bodyHtml = "<h1>Carton ganador </h1>"
+        + "<h4>El carton con id: " + pIdCarton + " ha ganado</h4>"
+        + "<h4>El premio es de: " + pPremio + "</h4>"
+        + "<h4>El carton es el siguiente:</h4>"
+        + "<img src=\"cid:image\">";
+    email.enviarEmailConImagen(pEmail, "Asignacion de carton",
+        ".\\cartones\\" + pIdCarton + ".png", bodyHtml);
   }
 }
