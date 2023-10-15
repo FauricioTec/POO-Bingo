@@ -14,7 +14,7 @@ import utilidad.NumeroApariciones;
 
 public class ConexionBaseDatos {
 
-  private static String url = "jdbc:sqlite:C:\\Users\\fauri\\OneDrive\\Escritorio\\POO-Bingo\\database.sqlite";
+  private static String url = "jdbc:sqlite:database.sqlite";
 
   public static void insertarJugador(Jugador pJugador) {
     try {
