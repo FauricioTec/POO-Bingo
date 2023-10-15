@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JOptionPane;
 import logicadenegocios.Juego;
 
 public class FrameJuego extends JFrame {
@@ -45,16 +46,19 @@ public class FrameJuego extends JFrame {
   }
 
   void presionarBtnCantarNumero() {
-    try {
-      if (juego.hayGanador()) {
-        new FinalJuego(juego.getConfiguracion().toString(), juego.getPremio(), juego.getCartonesGanadores());
-        dispose();
-      } else {
-        juego.cantarNumero();
-        taNumerosCantados.setText(juego.getNumerosCantados().toString());
+    if (juego.hayGanador()) {
+      try {
+        juego.guardarJuego();
+        juego.notificarGanadores();
+      } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
       }
-    } catch (Exception ex) {
-      System.out.println("Error: " + ex.getMessage());
+      new FinalJuego(juego.getConfiguracion().toString(), juego.getPremio(),
+          juego.getCartonesGanadores());
+      dispose();
+    } else {
+      juego.cantarNumero();
+      taNumerosCantados.setText(juego.getNumerosCantados().toString());
     }
   }
 }

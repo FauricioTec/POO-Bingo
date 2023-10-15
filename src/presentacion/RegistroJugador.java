@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import logicadenegocios.Jugador;
+import utilidad.Email;
 
 public class RegistroJugador extends JFrame {
 
@@ -26,14 +28,38 @@ public class RegistroJugador extends JFrame {
     setLocationRelativeTo(null);
     setResizable(false);
     initComponents();
-    setVisible(true);
   }
 
   private void initComponents() {
     setContentPane(pnlPrincipal);
-    btnRegresar.addActionListener(e -> {
+    btnGuardar.addActionListener(e -> presionarGuardar());
+    btnRegresar.addActionListener(e -> presionaregresar());
+  }
+
+  private void presionarGuardar() {
+    if (tfNombre.getText().isEmpty() || tfCedula.getText().isEmpty() || tfEmail.getText().isEmpty()) {
+      javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos");
+      return;
+    }
+    if (Email.esEmailValido(tfEmail.getText())) {
+      javax.swing.JOptionPane.showMessageDialog(this, "El email no es valido");
+      return;
+    }
+    try {
+      Jugador jugador = new logicadenegocios.Jugador(tfNombre.getText(),
+          Integer.parseInt(tfCedula.getText()), tfEmail.getText());
+      jugador.guardarJugador();
+      javax.swing.JOptionPane.showMessageDialog(this, "Jugador guardado exitosamente");
       new MenuPrincipal();
       dispose();
-    });
+    } catch (RuntimeException e) {
+      javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+  }
+
+  private void presionaregresar() {
+    MenuPrincipal menuPrincipal = new MenuPrincipal();
+    menuPrincipal.setVisible(true);
+    dispose();
   }
 }

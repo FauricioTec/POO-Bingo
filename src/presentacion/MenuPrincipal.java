@@ -22,30 +22,30 @@ public class MenuPrincipal extends JFrame {
     setLocationRelativeTo(null);
     setResizable(false);
     initComponents();
-    setVisible(true);
-  }
-
-  public static void main(String[] args) {
-    java.awt.EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        new MenuPrincipal();
-      }
-    });
   }
 
   private void initComponents() {
     setContentPane(pnlPrincipal);
     btnRegistrarJugador.addActionListener(e -> presionarBtnRegistrarJugador());
     btnIniciarPartida.addActionListener(e -> presionarBtnIniciarPartida());
+    btnMostrarEstadisticas.addActionListener(e -> presionarBtnMostrarEstadisticas());
   }
 
   private void presionarBtnIniciarPartida() {
-    new InicioPartida();
+    InicioPartida inicioPartida = new InicioPartida();
+    inicioPartida.setVisible(true);
     dispose();
   }
 
   private void presionarBtnRegistrarJugador() {
-    new RegistroJugador();
+    RegistroJugador registroJugador = new RegistroJugador();
+    registroJugador.setVisible(true);
+    dispose();
+  }
+
+  private void presionarBtnMostrarEstadisticas() {
+    MenuEstadisticas menuEstadisticas = new MenuEstadisticas();
+    menuEstadisticas.setVisible(true);
     dispose();
   }
 }

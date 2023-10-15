@@ -1,5 +1,6 @@
 package presentacion;
 
+import java.util.Objects;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -30,7 +31,6 @@ public class InicioJuego extends JFrame {
     setLocationRelativeTo(null);
     initComponents();
     setResizable(false);
-    setVisible(true);
   }
 
   private void initComponents() {
@@ -39,12 +39,13 @@ public class InicioJuego extends JFrame {
     cbConfiguracion.addItem(Configuracion.CARTON_LLENO.toString());
     cbConfiguracion.addItem(Configuracion.JUGAR_EN_X.toString());
     cbConfiguracion.addItem(Configuracion.JUGAR_EN_Z.toString());
-    btnIniciar.addActionListener(e -> {
-      Juego juego = new Juego(partida, tfPremio.getText(),
-          Configuracion.toConfiguracion(cbConfiguracion.getSelectedItem().toString()));
-      new FrameJuego(juego);
-      dispose();
-    });
+    btnIniciar.addActionListener(e -> presionarBtnIniciar());
   }
 
+  private void presionarBtnIniciar() {
+    Juego juego = new Juego(partida, tfPremio.getText(),
+        Configuracion.toConfiguracion(Objects.requireNonNull(cbConfiguracion.getSelectedItem()).toString()));
+    new FrameJuego(juego);
+    dispose();
+  }
 }

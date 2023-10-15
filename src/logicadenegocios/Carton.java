@@ -1,6 +1,7 @@
 package logicadenegocios;
 
 import java.util.ArrayList;
+import utilidad.ImagenCarton;
 
 /**
  * Clase que representa un carton
@@ -9,9 +10,8 @@ public class Carton {
 
   private static int cantidadCartones = 0;
   private final String id;
-
-  private Jugador jugador;
   private final Casilla[][] casillas;
+  private Jugador jugador;
 
   /**
    * Constructor de la clase Carton
@@ -26,7 +26,6 @@ public class Carton {
 
   /**
    * Metodo que genera las casillas del carton
-   *
    */
   public void generarCasillas() {
     for (int columna = 0; columna < 5; columna++) {
@@ -189,15 +188,11 @@ public class Carton {
     return jugador;
   }
 
-  public boolean tieneJugador() {
-    return jugador != null;
-  }
-
   public void setJugador(Jugador jugador) {
     this.jugador = jugador;
   }
 
-  public Casilla[][] getCasillas() {
-    return casillas;
+  public boolean tieneJugador() {
+    return jugador != null;
   }
 }

@@ -1,8 +1,10 @@
-package logicadenegocios;
+package utilidad;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.activation.FileDataSource;
 import javax.mail.Address;
 import javax.mail.Authenticator;
@@ -15,10 +17,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import logicadenegocios.Carton;
+
 
 /**
  * Clase que representa un email
- *
  */
 public class Email {
 
@@ -41,6 +44,53 @@ public class Email {
     properties.put("mail.smtp.starttls.enable", "true");
     properties.put("mail.smtp.host", "smtp.gmail.com");
     properties.put("mail.smtp.port", "587");
+  }
+
+  /**
+   * Metodo que envia un correo con los cartones a un jugador
+   *
+   * @param pCartones Cartones que se van a enviar
+   * @param pEmail    Email del jugador
+   */
+  public static void enviarCorreoConCartones(ArrayList<Carton> pCartones, String pEmail)
+      throws javax.mail.MessagingException, IOException {
+    Email email = new Email("correosautomaticos673@gmail.com", "dwhv ixzp lnud ljwl");
+    ArrayList<String> direccionImagenes = new ArrayList<>();
+    StringBuilder bodyHtml = new StringBuilder(
+        "<html><head><style>" +
+            "h1 { color: #333; font-size: 24px; }" +
+            "h3 { color: #666; font-size: 18px; }" +
+            "img { max-width: 100%; }" +
+            "</style></head><body>" +
+            "<h1>Cartones</h1>" +
+            "<h3>Los cartones son los siguientes:</h3>");
+    int i = 0;
+    for (Carton carton : pCartones) {
+      direccionImagenes.add(".\\cartones\\" + carton.getId() + ".png");
+      bodyHtml.append("<img src=\"cid:image").append(i).append("\">");
+      i++;
+    }
+    email.enviarEmailConImagenes(pEmail, "Asignacion de carton", direccionImagenes,
+        bodyHtml.toString());
+  }
+
+  public static void enviarCorreoGanador(String pIdCarton, String pPremio, String pEmail)
+      throws javax.mail.MessagingException, IOException {
+    Email email = new Email("correosautomaticos673@gmail.com", "dwhv ixzp lnud ljwl");
+    String bodyHtml = "<h1>Carton ganador </h1>"
+        + "<h4>El carton con id: " + pIdCarton + " ha ganado</h4>"
+        + "<h4>El premio es de: " + pPremio + "</h4>"
+        + "<h4>El carton es el siguiente:</h4>"
+        + "<img src=\"cid:image\">";
+    email.enviarEmailConImagen(pEmail, "Asignacion de carton",
+        ".\\cartones\\" + pIdCarton + ".png", bodyHtml);
+  }
+
+  public static boolean esEmailValido(String email) {
+    String regex = "^(.+)@(\\S+) $";
+    Pattern pattern = Pattern.compile(regex);
+    Matcher matcher = pattern.matcher(email);
+    return matcher.matches();
   }
 
   /**
@@ -162,39 +212,5 @@ public class Email {
     message.setSubject(pAsunto);
 
     return message;
-  }
-
-  /**
-   * Metodo que envia un correo con los cartones a un jugador
-   *
-   * @param pCartones Cartones que se van a enviar
-   * @param pEmail    Email del jugador
-   */
-  public static void enviarCorreoConCartones(ArrayList<Carton> pCartones, String pEmail)
-      throws javax.mail.MessagingException, IOException {
-    Email email = new Email("correosautomaticos673@gmail.com", "dwhv ixzp lnud ljwl");
-    ArrayList<String> direccionImagenes = new ArrayList<>();
-    StringBuilder bodyHtml = new StringBuilder("<h1>Cartones</h1>"
-        + "<h3>Los cartones son los siguientes:</h3>");
-    int i = 0;
-    for (Carton carton : pCartones) {
-      direccionImagenes.add(".\\cartones\\" + carton.getId() + ".png");
-      bodyHtml.append("<img src=\"cid:image").append(i).append("\">");
-      i++;
-    }
-    email.enviarEmailConImagenes(pEmail, "Asignacion de carton", direccionImagenes,
-        bodyHtml.toString());
-  }
-
-  public static void enviarCorreoGanador(String pIdCarton, String pPremio, String pEmail)
-      throws javax.mail.MessagingException, IOException {
-    Email email = new Email("correosautomaticos673@gmail.com", "dwhv ixzp lnud ljwl");
-    String bodyHtml = "<h1>Carton ganador </h1>"
-        + "<h4>El carton con id: " + pIdCarton + " ha ganado</h4>"
-        + "<h4>El premio es de: " + pPremio + "</h4>"
-        + "<h4>El carton es el siguiente:</h4>"
-        + "<img src=\"cid:image\">";
-    email.enviarEmailConImagen(pEmail, "Asignacion de carton",
-        ".\\cartones\\" + pIdCarton + ".png", bodyHtml);
   }
 }

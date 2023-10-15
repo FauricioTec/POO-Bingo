@@ -1,4 +1,4 @@
-package logicadenegocios;
+package utilidad;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
+import logicadenegocios.Casilla;
 
 /**
  * Clase que se encarga de generar la imagen del carton

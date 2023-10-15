@@ -1,11 +1,12 @@
 package presentacion;
 
+import java.io.IOException;
+import javax.mail.MessagingException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import logicadenegocios.Juego;
 import logicadenegocios.Partida;
 
 public class EnvioCarton extends JFrame {
@@ -33,11 +34,28 @@ public class EnvioCarton extends JFrame {
 
   private void initComponents() {
     setContentPane(pnlPrincipal);
+    btnEnviar.addActionListener(e -> presionarBtnEnviar());
     btnRegresar.addActionListener(e -> presionarBtnRegresar());
   }
 
+  private void presionarBtnEnviar() {
+    if (tfCantidad.getText().isEmpty() || tfCedula.getText().isEmpty()) {
+      javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos");
+      return;
+    }
+    try {
+      partida.enviarCartonesAJugador(Integer.parseInt(tfCantidad.getText()),
+          Integer.parseInt(tfCedula.getText()));
+      javax.swing.JOptionPane.showMessageDialog(this, "Carton enviado exitosamente");
+    } catch (RuntimeException | MessagingException | IOException e) {
+      javax.swing.JOptionPane.showMessageDialog(this, e.getMessage(), "Error",
+          javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
+  }
+
   private void presionarBtnRegresar() {
-    new MenuPartida(partida);
+    MenuPartida menuPartida = new MenuPartida(partida);
+    menuPartida.setVisible(true);
     dispose();
   }
 }

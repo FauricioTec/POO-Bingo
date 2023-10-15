@@ -1,11 +1,13 @@
 package logicadenegocios;
 
+import datos.ConexionBaseDatos;
 import java.io.IOException;
 import java.util.ArrayList;
+import utilidad.Email;
 
 public class Partida {
 
-  private ArrayList<Jugador> jugadores;
+  private final ArrayList<Jugador> jugadores;
   private ArrayList<Carton> cartones;
 
   /**
@@ -14,7 +16,7 @@ public class Partida {
    * @param pCantidadCartones Cantidad de cartones que se van a generar
    */
   public Partida(int pCantidadCartones) {
-    jugadores = new ArrayList<>(); //TODO: Los jugadores deben ser cargados desde la base de datos
+    jugadores = ConexionBaseDatos.obtenerJugadores();
     generarCartones(pCantidadCartones);
   }
 
@@ -107,7 +109,7 @@ public class Partida {
    * @param pCedula   Cedula del jugador
    * @param pCantidad Cantidad de cartones que se le van a asignar
    */
-  public void enviarCartonesAJugador(String pCedula, int pCantidad)
+  public void enviarCartonesAJugador(int pCantidad, int pCedula)
       throws javax.mail.MessagingException, IOException {
     if (pCantidad > contarCartonesSinAsignar()) {
       throw new RuntimeException("No hay suficientes cartones sin asignar");
@@ -131,9 +133,9 @@ public class Partida {
    * @param pCedula Cedula del jugador
    * @return Jugador encontrado
    */
-  private Jugador obtenerJugadorPorCedula(String pCedula) {
+  private Jugador obtenerJugadorPorCedula(int pCedula) {
     for (Jugador jugador : jugadores) {
-      if (jugador.getCedula().equals(pCedula)) {
+      if (jugador.getCedula() == pCedula) {
         return jugador;
       }
     }

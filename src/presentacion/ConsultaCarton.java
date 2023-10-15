@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 import logicadenegocios.Partida;
 
 public class ConsultaCarton extends JFrame {
@@ -29,7 +30,6 @@ public class ConsultaCarton extends JFrame {
     setSize(500, 600);
     setLocationRelativeTo(null);
     setResizable(false);
-    setVisible(true);
     initComponents();
   }
 
@@ -47,12 +47,13 @@ public class ConsultaCarton extends JFrame {
       ImageIcon newIcon = new ImageIcon(newImg);
       lblImagen.setIcon(newIcon);
     } else {
-      System.out.println("No existe el carton");
+      JOptionPane.showMessageDialog(null, "El carton no existe", "Info", JOptionPane.INFORMATION_MESSAGE);
     }
   }
 
   void presionarBtnRegresar() {
-    new MenuPartida(partida);
+    MenuPartida menuPartida = new MenuPartida(partida);
+    menuPartida.setVisible(true);
     dispose();
   }
 }

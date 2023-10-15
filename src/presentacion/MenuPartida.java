@@ -25,7 +25,6 @@ public class MenuPartida extends javax.swing.JFrame {
     setLocationRelativeTo(null);
     setResizable(false);
     initComponents();
-    setVisible(true);
   }
 
   private void initComponents() {
@@ -37,22 +36,26 @@ public class MenuPartida extends javax.swing.JFrame {
   }
 
   private void presionarBtnIniciarPartida() {
-    new InicioJuego(partida);
+    InicioJuego inicioJuego = new InicioJuego(partida);
+    inicioJuego.setVisible(true);
     dispose();
   }
 
   private void presionarBtnConsultarCarton() {
-    new ConsultaCarton(partida);
+    ConsultaCarton consultaCarton = new ConsultaCarton(partida);
+    consultaCarton.setVisible(true);
     dispose();
   }
 
   private void presionarBtnEnviarCarton() {
-    new EnvioCarton(partida);
+    EnvioCarton envioCarton = new EnvioCarton(partida);
+    envioCarton.setVisible(true);
     dispose();
   }
 
   private void presionarBtnMenuPrincipal() {
-    new MenuPrincipal();
+    MenuPrincipal menuPrincipal = new MenuPrincipal();
+    menuPrincipal.setVisible(true);
     dispose();
   }
 }

@@ -46,7 +46,8 @@ public class FinalJuego extends JFrame {
   }
 
   void presionarBtnTerminarJuego() {
-    new MenuPrincipal();
+    MenuPrincipal menuPrincipal = new MenuPrincipal();
+    menuPrincipal.setVisible(true);
     dispose();
   }
 }

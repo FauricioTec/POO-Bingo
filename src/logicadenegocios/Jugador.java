@@ -1,15 +1,14 @@
 package logicadenegocios;
 
-import java.util.TreeSet;
+import datos.ConexionBaseDatos;
 
 /**
  * Clase que representa un jugador
  */
 public class Jugador {
 
-  private static final TreeSet<String> cedulas = new TreeSet<>();
   private final String nombre;
-  private final String cedula;
+  private final int cedula;
   private final String email;
 
   /**
@@ -19,14 +18,14 @@ public class Jugador {
    * @param pCedula Cedula del jugador
    * @param pEmail  Email del jugador
    */
-  public Jugador(String pNombre, String pCedula, String pEmail) {
-    if (cedulas.contains(pCedula)) {
-      throw new RuntimeException("Ya existe un jugador con esa cedula");
-    }
+  public Jugador(String pNombre, int pCedula, String pEmail) {
     nombre = pNombre;
     cedula = pCedula;
-    cedulas.add(pCedula);
     email = pEmail;
+  }
+
+  public void guardarJugador() {
+    ConexionBaseDatos.insertarJugador(this);
   }
 
   /**
@@ -48,7 +47,7 @@ public class Jugador {
     return nombre;
   }
 
-  public String getCedula() {
+  public int getCedula() {
     return cedula;
   }
 
